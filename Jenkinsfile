@@ -5,14 +5,16 @@
 // On completion of NFT it triggers a new run
 // Note multiple triggers with the same parameters are coalesced
 
-sleepDuration=15
-manifestLocation="fan-in-add-to-manifest"
+sleepDuration = 15
+manifestLocation = "sb-deploy"
 
-def utilities = load 'utilities.groovy'
+def utilities
 
 stage('Reading Manifest'){
     node {
-          
+        git 'https://github.com/mmneri/sb-deploy.git'
+      	utilities = load 'utilities.groovy'  
+      	
         step([$class: 'CopyArtifact', filter: 'manifest', projectName: manifestLocation, selector: [$class: 'StatusBuildSelector', stable: false]])
         sh "mv manifest targetmanifest"
         requiredVersions = utilities.readPropertiesFromFile("targetmanifest")
