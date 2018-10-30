@@ -5,6 +5,11 @@
 // On completion of NFT it triggers a new run
 // Note multiple triggers with the same parameters are coalesced
 
+import jenkins.*
+import jenkins.model.*
+import hudson.*
+import hudson.model.*
+
 sleepDuration = 15
 manifestLocation = "sb-deploy"
 
