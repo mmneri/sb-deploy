@@ -11,7 +11,7 @@ import hudson.*
 import hudson.model.*
 
 sleepDuration = 15
-manifestLocation = "sb-rest"
+manifestLocation = "sb-update-manifest"
 
 def utilities
 
