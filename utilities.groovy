@@ -38,6 +38,16 @@ public get_branch_deployment_environment(String branch_type) {
     }
 }
 
+public get_branch_name(){
+    def branchName
+    if(isUnix()){
+        branchName = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+    } else {
+        branchName = bat(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+    }
+    return branchName
+}
+
 public mvn(String goals) {
     def mvnHome = tool "mvn"
 
