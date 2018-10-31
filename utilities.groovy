@@ -4,7 +4,7 @@
 //
 // ##################################################################################
 
-public get_branch_type(String branch_name) {
+public getBranchType(String branch_name) {
     //Must be specified according to <flowInitContext> configuration of jgitflow-maven-plugin in pom.xml
     def dev_pattern = ".*dev"
     def release_pattern = ".*release/.*"
@@ -26,7 +26,7 @@ public get_branch_type(String branch_name) {
     }
 }
 
-public get_branch_deployment_environment(String branch_type) {
+public getBranchDeploymentEnvironment(String branch_type) {
     if (branch_type == "dev") {
         return "dev"
     } else if (branch_type == "release") {
@@ -38,22 +38,41 @@ public get_branch_deployment_environment(String branch_type) {
     }
 }
 
+public getBranchName(){
+    def branchName
+    if(isUnix()){
+        branchName = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+    } else {
+        branchName = bat(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+    }
+    return branchName
+}
+
 public mvn(String goals) {
     def mvnHome = tool "mvn"
 
     if (isUnix()) {
-         sh "'${mvnHome}/bin/mvn' -B ${goals}"
-	  } else {
-	     bat(/"${mvnHome}\bin\mvn" -B ${goals}/)
-	  }
+        sh "'${mvnHome}/bin/mvn' -B ${goals}"
+    } else {
+        bat(/"${mvnHome}\bin\mvn" -B ${goals}/)
+    }
 }
 
+public cmd(String goals) {
+    if (isUnix()) {
+        sh "${goals}"
+    } else {
+        bat(/${goals}/)
+    }
+}
 
 // ##################################################################################
 //
 //   Deploy Functions
 //
 // ##################################################################################
+
+sleepDuration = 1
 
 public compareVersions ( requiredVersions, currentVersions) {
 
@@ -75,7 +94,6 @@ public compareVersions ( requiredVersions, currentVersions) {
 
     return updatedVersions
 }
-
 
 public decom(app, revision) {
     node ("$app-deploy-runner") {
@@ -139,9 +157,9 @@ public readPropertiesFromFile (file) {
 public log (step, msg) {
 
     echo """************************************************************
-			Step: $step
-			$msg
-			************************************************************"""
+            Step: $step
+            $msg
+            ************************************************************"""
 }
 
 return this;
