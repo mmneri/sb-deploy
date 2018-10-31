@@ -42,10 +42,18 @@ public mvn(String goals) {
     def mvnHome = tool "mvn"
 
     if (isUnix()) {
-         sh "'${mvnHome}/bin/mvn' -B ${goals}"
-	  } else {
-	     bat(/"${mvnHome}\bin\mvn" -B ${goals}/)
-	  }
+        sh "'${mvnHome}/bin/mvn' -B ${goals}"
+    } else {
+        bat(/"${mvnHome}\bin\mvn" -B ${goals}/)
+    }
+}
+
+public cmd(String goals) {
+    if (isUnix()) {
+        sh "${goals}"
+    } else {
+        bat(/${goals}/)
+    }
 }
 
 
