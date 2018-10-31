@@ -4,7 +4,7 @@
 //
 // ##################################################################################
 
-public get_branch_type(String branch_name) {
+public getBranchType(String branch_name) {
     //Must be specified according to <flowInitContext> configuration of jgitflow-maven-plugin in pom.xml
     def dev_pattern = ".*dev"
     def release_pattern = ".*release/.*"
@@ -26,7 +26,7 @@ public get_branch_type(String branch_name) {
     }
 }
 
-public get_branch_deployment_environment(String branch_type) {
+public getBranchDeploymentEnvironment(String branch_type) {
     if (branch_type == "dev") {
         return "dev"
     } else if (branch_type == "release") {
@@ -38,7 +38,7 @@ public get_branch_deployment_environment(String branch_type) {
     }
 }
 
-public get_branch_name(){
+public getBranchName(){
     def branchName
     if(isUnix()){
         branchName = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
