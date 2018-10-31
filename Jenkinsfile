@@ -21,12 +21,12 @@ stage('Reading Manifest'){
       	utilities = load 'utilities.groovy'  
       	
         step([$class: 'CopyArtifact', filter: 'manifest', projectName: manifestLocation, selector: [$class: 'StatusBuildSelector', stable: false]])
-        sh "mv manifest targetmanifest"
+        utilities.cmd("mv manifest targetmanifest")
         requiredVersions = utilities.readPropertiesFromFile("targetmanifest")
     
         try {
             step([$class: 'CopyArtifact', filter: 'manifest', projectName:env.JOB_NAME, selector: [$class: 'StatusBuildSelector', stable: false]])
-            sh "mv manifest currentmanifest"
+            utilities.cmd("mv manifest currentmanifest")
             currentVersions = utilities.readPropertiesFromFile("currentmanifest")
         } catch (Exception e) {
             echo e.toString()
@@ -34,6 +34,7 @@ stage('Reading Manifest'){
         }
     }
 }
+
 stage('Determining Updated Apps'){
     node {
         updatedVersions = utilities.compareVersions( requiredVersions, currentVersions)
@@ -47,11 +48,11 @@ stage('Updating Apps'){
         checkpoint 'Starting App Update'
     
         if (appsToUpdate.size()>0) {
-            log "Update Apps", "The following apps require updating: ${appsToUpdate.toString()}"
+            utilities.log "Update Apps", "The following apps require updating: ${appsToUpdate.toString()}"
     
             def branches = [:]
             for (i=0; i < appsToUpdate.size(); i++) {
-                def app=appsToUpdate[i]
+                def app = appsToUpdate[i]
                 def revision = updatedVersions.getProperty(app)
                 branches[app] = {
                     utilities.decom(app, revision)
@@ -67,7 +68,6 @@ stage('Updating Apps'){
     }
 }
 
-
 stage concurrency: 1, name: 'Perform NFT'
     node{
         checkpoint 'Starting NFT'
@@ -80,7 +80,3 @@ stage("Check queue and re-trigger"){
     }
     
 }
-
-
-
-
