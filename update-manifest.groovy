@@ -8,7 +8,7 @@ if (revision=="") {
     error 'No revision specified'
 }
 
-log "Received update", "$app:$revision"
+echo "Received update $app:$revision"
 
 
 stage('Reading Manifest') {
