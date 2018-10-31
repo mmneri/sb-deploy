@@ -16,7 +16,7 @@ stage('Reading Manifest') {
 		git 'https://github.com/mmneri/sb-deploy.git'
 	  	utilities = load 'utilities.groovy'  
 	  	
-	    sh "echo 'reading manifest as an artifact'"
+	    echo "reading manifest as an artifact"
 	    try {
 	        step([$class: 'CopyArtifact', filter: 'manifest', projectName:env.JOB_NAME, selector: [$class: 'StatusBuildSelector', stable: false]])
 	        versions = utilities.readPropertiesFromFile ("manifest")
@@ -29,7 +29,7 @@ stage('Reading Manifest') {
     
 stage('Merging Manifest') {
 	node {
-		sh "echo 'Merging the manifest with the new versions'"
+		echo "Merging the manifest with the new versions"
 		versions[app] = revision
 	}
 }
@@ -42,6 +42,6 @@ stage('Writing Manifest') {
 }
 
 stage('Triggering Release Build') {
-    log "Trigger build", "Triggering a new build"
+    utilities.log "Trigger build", "Triggering a new build"
     build job: downstreamJob, propagate: false, wait: false
 }
