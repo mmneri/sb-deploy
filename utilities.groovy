@@ -62,6 +62,8 @@ public cmd(String goals) {
 //
 // ##################################################################################
 
+sleepDuration = 1
+
 public compareVersions ( requiredVersions, currentVersions) {
 
     currentapps = currentVersions.stringPropertyNames().toArray()
