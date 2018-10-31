@@ -56,7 +56,6 @@ public cmd(String goals) {
     }
 }
 
-
 // ##################################################################################
 //
 //   Deploy Functions
@@ -83,7 +82,6 @@ public compareVersions ( requiredVersions, currentVersions) {
 
     return updatedVersions
 }
-
 
 public decom(app, revision) {
     node ("$app-deploy-runner") {
@@ -147,9 +145,9 @@ public readPropertiesFromFile (file) {
 public log (step, msg) {
 
     echo """************************************************************
-			Step: $step
-			$msg
-			************************************************************"""
+            Step: $step
+            $msg
+            ************************************************************"""
 }
 
 return this;
