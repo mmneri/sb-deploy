@@ -14,6 +14,10 @@ sleepDuration = 15
 manifestLocation = "sb-update-manifest"
 
 def utilities
+def move = "move"
+if (isUnix()) {
+    move = "mv"
+}
 
 stage('Reading Manifest'){
     node {
@@ -21,12 +25,12 @@ stage('Reading Manifest'){
       	utilities = load 'utilities.groovy'  
       	
         step([$class: 'CopyArtifact', filter: 'manifest', projectName: manifestLocation, selector: [$class: 'StatusBuildSelector', stable: false]])
-        utilities.cmd("mv manifest targetmanifest")
+        utilities.cmd("${move} manifest targetmanifest")
         requiredVersions = utilities.readPropertiesFromFile("targetmanifest")
     
         try {
             step([$class: 'CopyArtifact', filter: 'manifest', projectName:env.JOB_NAME, selector: [$class: 'StatusBuildSelector', stable: false]])
-            utilities.cmd("mv manifest currentmanifest")
+            utilities.cmd("${move} manifest currentmanifest")
             currentVersions = utilities.readPropertiesFromFile("currentmanifest")
         } catch (Exception e) {
             echo e.toString()
