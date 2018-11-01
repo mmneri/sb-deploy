@@ -15,9 +15,6 @@ manifestLocation = "sb-update-manifest"
 
 def utilities
 def move = "move"
-if (isUnix()) {
-    move = "mv"
-}
 
 stage('Reading Manifest'){
     node {
@@ -25,6 +22,9 @@ stage('Reading Manifest'){
       	utilities = load 'utilities.groovy'  
       	
         step([$class: 'CopyArtifact', filter: 'manifest', projectName: manifestLocation, selector: [$class: 'StatusBuildSelector', stable: false]])
+        if (isUnix()) {
+		    move = "mv"
+		}
         utilities.cmd("${move} manifest targetmanifest")
         requiredVersions = utilities.readPropertiesFromFile("targetmanifest")
     
