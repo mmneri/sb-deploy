@@ -49,7 +49,6 @@ stage('Determining Updated Apps'){
     
 stage('Updating Apps'){
     node {
-        checkpoint 'Starting App Update'
     
         if (appsToUpdate.size()>0) {
             utilities.log "Update Apps", "The following apps require updating: ${appsToUpdate.toString()}"
