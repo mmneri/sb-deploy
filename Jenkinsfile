@@ -73,7 +73,6 @@ stage('Updating Apps'){
 
 stage concurrency: 1, name: 'Perform NFT'
     node{
-        checkpoint 'Starting NFT'
         utilities.performNFT()
     }
 
