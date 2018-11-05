@@ -97,7 +97,7 @@ public compareVersions ( requiredVersions, currentVersions) {
 
 public decom(app, revision) {
 	app_name = app.replace("/","-")
-    node ("{$app_name}-deploy-runner") {
+    node ("$app_name-deploy-runner") {
         log ("Decomission", """Perform the decomission steps here for app: $app eg call sh /scripts/$app/decom nft""")
         sleep time: sleepDuration
     }
@@ -105,7 +105,7 @@ public decom(app, revision) {
 
 public deploy(app, revision) {
     app_name = app.replace("/","-")
-    node ("{$app_name}-deploy-runner") {
+    node ("$app_name-deploy-runner") {
         log ("Deploy", """Perform the deploy steps here for app: $app:$revision eg call sh /scripts/$app/deploy nft $revision""")
         sleep time: sleepDuration
     }
