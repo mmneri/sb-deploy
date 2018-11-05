@@ -78,7 +78,7 @@ stage concurrency: 1, name: 'Perform NFT'
 
 stage("Check queue and re-trigger"){
     node{
-        utilities.triggerRun()
+        //utilities.triggerRun()
     }
     
 }
