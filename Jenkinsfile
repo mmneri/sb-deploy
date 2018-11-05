@@ -14,6 +14,7 @@ sleepDuration = 15
 manifestLocation = "sb-update-manifest"
 
 def utilities
+def move = "move"
 
 stage('Reading Manifest'){
     node {
@@ -21,12 +22,15 @@ stage('Reading Manifest'){
       	utilities = load 'utilities.groovy'  
       	
         step([$class: 'CopyArtifact', filter: 'manifest', projectName: manifestLocation, selector: [$class: 'StatusBuildSelector', stable: false]])
-        utilities.cmd("mv manifest targetmanifest")
+        if (isUnix()) {
+		    move = "mv"
+		}
+        utilities.cmd("${move} manifest targetmanifest")
         requiredVersions = utilities.readPropertiesFromFile("targetmanifest")
     
         try {
             step([$class: 'CopyArtifact', filter: 'manifest', projectName:env.JOB_NAME, selector: [$class: 'StatusBuildSelector', stable: false]])
-            utilities.cmd("mv manifest currentmanifest")
+            utilities.cmd("${move} manifest currentmanifest")
             currentVersions = utilities.readPropertiesFromFile("currentmanifest")
         } catch (Exception e) {
             echo e.toString()
@@ -45,7 +49,6 @@ stage('Determining Updated Apps'){
     
 stage('Updating Apps'){
     node {
-        checkpoint 'Starting App Update'
     
         if (appsToUpdate.size()>0) {
             utilities.log "Update Apps", "The following apps require updating: ${appsToUpdate.toString()}"
