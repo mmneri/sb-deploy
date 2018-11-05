@@ -49,7 +49,7 @@ stage('Determining Updated Apps'){
     
 stage('Updating Apps'){
     node {
-    
+    	
         if (appsToUpdate.size()>0) {
             utilities.log "Update Apps", "The following apps require updating: ${appsToUpdate.toString()}"
     
