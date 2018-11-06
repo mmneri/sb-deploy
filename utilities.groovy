@@ -99,14 +99,8 @@ public getArtifact(app, revision) {
 	log ("getArtifact", """get Artifact steps here for app: $app""")
 	app_split = app.split('/')
 	app_name = app_split[0]
-	steps {
-		script {
-	         step ([$class: "CopyArtifact",
-	         projectName: "${app_name}",
-	         filter: "target/*.war",
-	         target: "infra"]);
-		}
-	}
+	CopyArtifact projectName: "${app_name}", filter: "target/*.war", target: "infra";
+		
     
 }
 
