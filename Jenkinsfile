@@ -58,7 +58,7 @@ stage('Updating Apps'){
                 def app = appsToUpdate[i]
                 def revision = updatedVersions.getProperty(app)
                 branches[app] = {
-                    utilities.decom(app, revision)
+                    utilities.getArtifact(app, revision)
                     utilities.deploy (app, revision)
                 }
             }
@@ -73,13 +73,12 @@ stage('Updating Apps'){
 
 stage concurrency: 1, name: 'Perform NFT'
     node{
-        checkpoint 'Starting NFT'
         utilities.performNFT()
     }
 
 stage("Check queue and re-trigger"){
     node{
-        utilities.triggerRun()
+        //utilities.triggerRun()
     }
     
 }
