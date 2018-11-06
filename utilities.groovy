@@ -99,7 +99,7 @@ public getArtifact(app, revision) {
 	log ("getArtifact", """get Artifact steps here for app: $app""")
 	app_split = app.split('/')
 	app_name = app_split[0]
-	copyArtifacts projectName: "${app_name}", filter: "target/*.war", target: "infra";
+	copyArtifacts projectName: "${app}", filter: "target/*.war", target: "infra";
 		
     
 }
