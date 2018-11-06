@@ -58,7 +58,7 @@ stage('Updating Apps'){
                 def app = appsToUpdate[i]
                 def revision = updatedVersions.getProperty(app)
                 branches[app] = {
-                    utilities.decom(app, revision)
+                    utilities.getArtifact(app, revision)
                     utilities.deploy (app, revision)
                 }
             }
