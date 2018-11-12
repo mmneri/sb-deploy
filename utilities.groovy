@@ -107,11 +107,11 @@ public getArtifact(app, revision) {
 
 @NonCPS public deploy(app, revision) {
     log ("Deploy", """Perform the deploy steps here for app: $app:$revision """)
-    def tc = hudson.plugins.deploy.tomcat.Tomcat8xAdapter( 
+    def tc = TomcatAdapter( 
         url: "http://localhost:8181",
         credentialsId: "deploy"
     )
-    deploy container: tc, war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
+    DeployPublisher adapters: [tc], war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
 }
 
 public performNFT() {
