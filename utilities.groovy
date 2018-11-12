@@ -1,6 +1,3 @@
-import jenkins.model.*
-@NonCPS jenkins = Jenkins.instance
-
 // ##################################################################################
 //
 //   Utility Functions
@@ -105,7 +102,7 @@ public getArtifact(app, revision) {
     
 }
 
-@NonCPS public deploy(app, revision) {
+public deploy(app, revision) {
     log ("Deploy", """Perform the deploy steps here for app: $app:$revision """)
     // def tc = TomcatAdapter( 
     //    url: "http://localhost:8181",
