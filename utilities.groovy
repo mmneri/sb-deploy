@@ -107,11 +107,12 @@ public getArtifact(app, revision) {
 
 @NonCPS public deploy(app, revision) {
     log ("Deploy", """Perform the deploy steps here for app: $app:$revision """)
-    def tc = TomcatAdapter( 
-        url: "http://localhost:8181",
-        credentialsId: "deploy"
-    )
-    DeployPublisher adapters: [tc], war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
+    // def tc = TomcatAdapter( 
+    //    url: "http://localhost:8181",
+    //    credentialsId: "deploy"
+    // )
+    // deploy container: tc, war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
+    cmd "curl --upload-file deploy/${app}/target/*.war 'http://deployer:deployer@localhost:8181/manager/deploy?path=/fff&update=true'"
 }
 
 public performNFT() {
