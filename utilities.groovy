@@ -100,18 +100,18 @@ public compareVersions ( requiredVersions, currentVersions) {
 
 public getArtifact(app, revision) {
 	log ("getArtifact", """get Artifact steps here for app: $app""")
-	copyArtifacts projectName: "${app}", filter: "target/*.war", target: "deploiement/${app}";
+	copyArtifacts projectName: "${app}", filter: "target/*.war", target: "deploy/${app}";
 		
     
 }
 
 @NonCPS public deploy(app, revision) {
-    log ("Deploy", """Perform the deploy steps here for app: $app:$revision eg call sh /scripts/$app/deploy nft $revision""")
+    log ("Deploy", """Perform the deploy steps here for app: $app:$revision """)
     def tc = hudson.plugins.deploy.tomcat.Tomcat8xAdapter( 
         url: "http://localhost:8181",
         credentialsId: "deploy"
     )
-    deploy container: tc, war: "deploiement/${app}/target/*.war", contextPath: "fff", onFailure: false;
+    deploy container: tc, war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
 }
 
 public performNFT() {
