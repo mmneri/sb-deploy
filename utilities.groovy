@@ -108,7 +108,7 @@ public deploy(app, revision) {
         url: "http://localhost:8181",
         credentialsId: "deploy"
     )
-    deploy container: tc, war: "deploiement/${app}/*.war", contextPath: "fff", onFailure: false;
+    deploy container: tc, war: "deploiement/${app}/target/*.war", contextPath: "fff", onFailure: false;
 }
 
 public performNFT() {
