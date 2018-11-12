@@ -1,6 +1,3 @@
-import jenkins.model.*
-jenkins = Jenkins.instance
-
 // ##################################################################################
 //
 //   Utility Functions

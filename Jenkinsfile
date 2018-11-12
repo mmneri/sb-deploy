@@ -59,7 +59,11 @@ stage('Updating Apps'){
                 def revision = updatedVersions.getProperty(app)
                 branches[app] = {
                     utilities.getArtifact(app, revision)
-                    utilities.deploy (app, revision)
+                    def tc = hudson.plugins.deploy.tomcat.Tomcat8xAdapter( 
+				        url: "http://localhost:8181",
+				        credentialsId: "deploy"
+				    )
+				    deploy container: tc, war: "deploiement/${app}/target/*.war", contextPath: "fff", onFailure: false;
                 }
             }
             parallel branches
