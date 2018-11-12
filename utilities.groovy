@@ -97,21 +97,18 @@ public compareVersions ( requiredVersions, currentVersions) {
 
 public getArtifact(app, revision) {
 	log ("getArtifact", """get Artifact steps here for app: $app""")
-	app_split = app.split('/')
-	app_name = app_split[0]
-	copyArtifacts projectName: "${app}", filter: "target/*.war", target: "infra";
+	copyArtifacts projectName: "${app}", filter: "target/*.war", target: "deploiement/${app}";
 		
     
 }
 
 public deploy(app, revision) {
     log ("Deploy", """Perform the deploy steps here for app: $app:$revision eg call sh /scripts/$app/deploy nft $revision""")
-    def tc8 = tomcat7x( 
-        url:        "http://localhost:8181",
-        password:   "deployer", 
-        userName:   "deployer"
+    def tc = tomcat( 
+        url: "http://localhost:8181",
+        credentialsId: "deploy"
     )
-    deploy container: tc8, war: "infra/*.war" , contextPath: "/fff", onFailure: false;
+    deploy container: tc, war: "deploiement/${app}/*.war", contextPath: "fff", onFailure: false;
 }
 
 public performNFT() {
