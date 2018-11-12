@@ -106,7 +106,12 @@ public getArtifact(app, revision) {
 
 public deploy(app, revision) {
     log ("Deploy", """Perform the deploy steps here for app: $app:$revision eg call sh /scripts/$app/deploy nft $revision""")
-    deploypublisher adapters: [tomcat8(password: "deployer", url: "http://localhost:8181", userName: "deployer")], onFailure: false, war: "infra/*.war";
+    def tc8 = tomcat8( 
+        url:        "http://localhost:8181",
+        password:   "deployer", 
+        userName:   "deployer"
+    )
+    deploy container: tc8, war: "infra/*.war" , contextPath: "/fff", onFailure: false;
 }
 
 public performNFT() {
