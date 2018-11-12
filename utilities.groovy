@@ -106,7 +106,7 @@ public getArtifact(app, revision) {
 
 public deploy(app, revision) {
     log ("Deploy", """Perform the deploy steps here for app: $app:$revision eg call sh /scripts/$app/deploy nft $revision""")
-    def tc8 = tomcat8( 
+    def tc8 = tomcat7x( 
         url:        "http://localhost:8181",
         password:   "deployer", 
         userName:   "deployer"
