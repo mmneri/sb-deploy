@@ -1,5 +1,5 @@
 import jenkins.model.*
-jenkins = Jenkins.instance
+@NonCPS jenkins = Jenkins.instance
 
 // ##################################################################################
 //
@@ -105,7 +105,7 @@ public getArtifact(app, revision) {
     
 }
 
-public deploy(app, revision) {
+@NonCPS public deploy(app, revision) {
     log ("Deploy", """Perform the deploy steps here for app: $app:$revision eg call sh /scripts/$app/deploy nft $revision""")
     def tc = hudson.plugins.deploy.tomcat.Tomcat8xAdapter( 
         url: "http://localhost:8181",
