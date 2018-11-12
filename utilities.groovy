@@ -109,7 +109,7 @@ public deploy(app, revision) {
     //    credentialsId: "deploy"
     // )
     // deploy container: tc, war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
-    cmd "curl --upload-file deploy/${app}/target/*.war 'http://deployer:deployer@localhost:8181/manager/deploy?path=/fff&update=true'"
+    cmd 'curl --upload-file deploy/${app}/target/*.war "http://deployer:deployer@localhost:8181/manager/deploy?path=/fff&update=true"'
 }
 
 public performNFT() {
