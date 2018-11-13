@@ -110,7 +110,7 @@ public deploy(app, revision) {
     // )
     // deploy container: tc, war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
     withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-	    cmd "curl --upload-file deploy/$app/target/fff.war http://$USERNAME:$PASSWORD@localhost:8181/manager/text/reload?path=fff"
+	    cmd "curl --upload-file deploy/$app/target/fff.war http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=fff"
 	}
     
 }
