@@ -29,8 +29,8 @@ stage('Reading Manifest'){
         requiredVersions = utilities.readPropertiesFromFile("targetmanifest")
     
         try {
-            step([$class: 'CopyArtifact', filter: 'manifest', projectName:env.JOB_NAME, selector: [$class: 'StatusBuildSelector', stable: false]])
-            utilities.cmd("${move} manifest currentmanifest")
+            //step([$class: 'CopyArtifact', filter: 'manifest', projectName:env.JOB_NAME, selector: [$class: 'StatusBuildSelector', stable: false]])
+            //utilities.cmd("${move} manifest currentmanifest")
             currentVersions = utilities.readPropertiesFromFile("currentmanifest")
         } catch (Exception e) {
             echo e.toString()
