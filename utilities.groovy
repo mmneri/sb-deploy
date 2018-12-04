@@ -97,7 +97,7 @@ public compareVersions ( requiredVersions, currentVersions) {
 
 public getArtifact(app, revision) {	
 	log ("getArtifact", """get Artifact steps here for app: $app""")
-	copyArtifacts projectName: "${app}", filter: "target/*##*.war", target: "deploy/${app}/${revision}";    
+	copyArtifacts projectName: "${app}", filter: "target/*.war", target: "deploy/${app}/${revision}";    
 }
 
 public deploy(app, revision) {
