@@ -107,11 +107,11 @@ public deploy(app, revision) {
     //    credentialsId: "deploy"
     // )
     // deploy container: tc, war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
-    withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff"
-    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff"
-	    cmd "curl --upload-file deploy/$app/$revision/target/fff.war http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
-	}
+    //withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+    	//cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff"
+    	//cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff"
+	   // cmd "curl --upload-file deploy/$app/$revision/target/fff.war http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
+	//}
     
 }
 
