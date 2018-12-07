@@ -102,17 +102,27 @@ public getArtifact(app, revision) {
 
 public deploy(app, revision) {
     log ("Deploy", """Perform the deploy steps here for app: $app:$revision """)
-    // def tc = TomcatAdapter( 
-    //    url: "http://localhost:8181",
-    //    credentialsId: "deploy"
-    // )
-    // deploy container: tc, war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
-    //withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-    	//cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff"
-    	//cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff"
-	   // cmd "curl --upload-file deploy/$app/$revision/target/fff.war http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
-	//}
     
+    cmd "dir \"deploy\\${app}\\${revision}\\target\\fff##*.war" /b > filename-${revision}"
+    
+    currentVersions = utilities.readPropertiesFromFile("filename-${revision}")
+    currentapps = currentVersions.stringPropertyNames().toArray()
+    def appVersion = ""
+    if(currentapps.size() == 1){
+    	appVersion = currentapps[0]
+    }
+    if(appVersion && appVersion != ""){
+	    def tc = TomcaftAdapter( 
+	       url: "http://localhost:8181",
+	       credentialsId: "deploy"
+	    )
+	    //deploy container: tc, war: "deploy/${app}/target/*.war", contextPath: "fff", onFailure: false;
+	    withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+	    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff"
+	    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff"
+		    curl --upload-file deploy/$app/$revision/target/${appVersion} http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
+		}
+    }
 }
 
 public performNFT() {
