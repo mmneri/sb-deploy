@@ -24,8 +24,11 @@ stage('Reading Manifest'){
       	def out = ""
       	withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
 	    	utilities.cmd "curl -vs http://$USERNAME:$PASSWORD@localhost:8181/manager/text/list > pid"
-            def s = readFile 'pid'
-            out = s.trim()
+            def s = readPropertiesFromFile 'pid'
+            listapps = s.stringPropertyNames().toArray()
+            for (i=0; i < listapps.size(); i++) {
+            	echo "ligne $i = "+ listapps[ i]
+            }
 	    } 
       	
       	utilities.log("OUTPUT", out)
