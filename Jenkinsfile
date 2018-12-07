@@ -30,7 +30,7 @@ stage('Reading Manifest'){
             def contexte = ""
             for (i=0; i < listapps.size(); i++) {
             	echo "ligne $i = "+ listapps[i] + " == "+ s.getProperty(listapps[i])
-            	if(listapps[i] == OK) {
+            	if(listapps[i] == "OK") {
             	     statut = true
             	}
 				if(listapps[i] == "/fff") {
