@@ -23,7 +23,9 @@ stage('Reading Manifest'){
       	
       	def out = ""
       	withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-	    	out = utilities.cmd "curl -vs http://$USERNAME:$PASSWORD@localhost:8181/manager/text/list 2>/dev/null"
+	    	utilities.cmd "curl -vs http://$USERNAME:$PASSWORD@localhost:8181/manager/text/list 2>/dev/null 1>myfile.log & echo \$! > pid"
+            def s = readFile 'pid'
+            out = s.trim()
 	    } 
       	
       	utilities.log("OUTPUT", out)
