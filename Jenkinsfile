@@ -23,7 +23,7 @@ stage('Reading Manifest'){
       	
       	def out = ""
       	withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-	    	out = utilities.cmd "curl -vs http://$USERNAME:$PASSWORD@localhost:8181/manager/text/list 2>&1"
+	    	out = utilities.cmd "curl -vs http://$USERNAME:$PASSWORD@localhost:8181/manager/text/list 2>/dev/null"
 	    } 
       	
       	utilities.log("OUTPUT", out)
