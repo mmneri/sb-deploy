@@ -113,12 +113,7 @@ public deploy(app, revision) {
     	log ("WAR NAME",  appVersion)
     }
     if(appVersion && appVersion != ""){
-    	cmd "del filename-${revision}"
-	    def tc = TomcaftAdapter( 
-	       url: "http://localhost:8181",
-	       credentialsId: "deploy"
-	    )
-	    
+    	cmd "del filename-${revision}"	    
 	    withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
 	    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff"
 	    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff"
