@@ -27,7 +27,8 @@ stage('Reading Manifest'){
             def s = utilities.readPropertiesFromFile 'pid'
             listapps = s.stringPropertyNames().toArray()
             for (i=0; i < listapps.size(); i++) {
-            	echo "ligne $i = "+ listapps[ i]
+            	echo "ligne $i = "+ listapps[i] + " == "+ s.getProperty(listapps[i])
+            	
             }
 	    } 
       	
