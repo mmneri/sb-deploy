@@ -105,7 +105,7 @@ public deploy(app, revision) {
     
     cmd "dir \"deploy\\"+app.replace("/","\\")+"\\${revision}\\target\\fff##*.war\" /b > filename-${revision}"
     
-    currentVersions = utilities.readPropertiesFromFile("filename-${revision}")
+    currentVersions = readPropertiesFromFile("filename-${revision}")
     currentapps = currentVersions.stringPropertyNames().toArray()
     def appVersion = ""
     if(currentapps.size() == 1){
