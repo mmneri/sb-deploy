@@ -103,7 +103,7 @@ public getArtifact(app, revision) {
 public deploy(app, revision) {
     log ("Deploy", """Perform the deploy steps here for app: $app:$revision """)
     
-    cmd "dir \"deploy\\${app}\\${revision}\\target\\fff##*.war\" /b > filename-${revision}"
+    cmd "dir \"deploy\\"+app.replace("/","\\")+"\\${revision}\\target\\fff##*.war\" /b > filename-${revision}"
     
     currentVersions = utilities.readPropertiesFromFile("filename-${revision}")
     currentapps = currentVersions.stringPropertyNames().toArray()
