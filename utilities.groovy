@@ -110,6 +110,7 @@ public deploy(app, revision) {
     def appVersion = ""
     if(currentapps.size() == 1){
     	appVersion = currentapps[0]
+    	log ("WAR NAME",  appVersion)
     }
     if(appVersion && appVersion != ""){
     	cmd "del filename-${revision}"
