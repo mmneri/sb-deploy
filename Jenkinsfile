@@ -19,7 +19,14 @@ def move = "move"
 stage('Reading Manifest'){
     node {
         git 'https://github.com/mmneri/sb-deploy.git'
-      	utilities = load 'utilities.groovy'  
+      	utilities = load 'utilities.groovy' 
+      	
+      	def out = ""
+      	withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+	    	out = utilities.cmd "curl -vs http://$USERNAME:$PASSWORD@localhost:8181/manager/text/list 2>&1"
+	    } 
+      	
+      	utilities.log("OUTPUT", out)
       	
         step([$class: 'CopyArtifact', filter: 'manifest', projectName: manifestLocation, selector: [$class: 'StatusBuildSelector', stable: false]])
         if (isUnix()) {
