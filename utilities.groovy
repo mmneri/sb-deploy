@@ -150,7 +150,7 @@ public deploy(app, revision) {
                 	String[] appVersions = appVersion.split("##")
             		if(appVersions.size() == 2){      
             			def appV =  appVersions[1].replace(".war","")
-			    		cmd "curl --upload-file deploy/$app/$revision/target/$appVersion \"http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff&version=$appV&update=true\""
+			    		cmd "curl --upload-file deploy/$app/$revision/target/$appVersion \"http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff&version=$appV&update=true&tag=fff\""
 		    		}else{
 			    		cmd "curl --upload-file deploy/$app/$revision/target/$appVersion \"http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff&update=true\""
 		    		}
