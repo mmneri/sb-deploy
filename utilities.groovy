@@ -137,8 +137,15 @@ public deploy(app, revision) {
             
             if(statut){
                 if(contexte && contexte != null){
-                	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/$contexte"
-			    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/$contexte"
+                	String[] appContext = contexte.split("##")
+                	if(appContext.size() == 2){      
+                		def appCont =  appContext[1]         		
+	                	cmd "curl \"http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff&version=$appCont\""
+				    	cmd "curl \"http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff&version=$appCont"
+                	}else{
+	                	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff"
+				    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff"
+                	}
 				    cmd "curl --upload-file deploy/$app/$revision/target/$appVersion http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
                 }else{
                 	cmd "curl --upload-file deploy/$app/$revision/target/$appVersion http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
