@@ -146,7 +146,13 @@ public deploy(app, revision) {
                 	}else{
 	                	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff"
 				    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff"
-				    	cmd "curl --upload-file deploy/$app/$revision/target/$appVersion http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
+				    	String[] appVersions = appVersion.split("##")
+                		if(appVersions.size() == 2){      
+                			def appV =  appVersions[1]
+				    		cmd "curl --upload-file deploy/$app/$revision/target/$appVersion \"http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff&version=$appV&update=true\""
+			    		}else{
+				    		cmd "curl --upload-file deploy/$app/$revision/target/$appVersion http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
+			    		}
                 	}
 				    
                 }else{
