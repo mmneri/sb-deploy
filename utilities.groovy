@@ -142,7 +142,7 @@ public deploy(app, revision) {
                 		def appCont =  appContext[1]         		
 	                	cmd "curl \"http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff&version=$appCont\""
 				    	cmd "curl \"http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff&version=$appCont"
-				    	cmd "curl --upload-file deploy/$app/$revision/target/$appVersion http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff&version=$appCont&update=true"
+				    	cmd "curl --upload-file deploy/$app/$revision/target/$appVersion \"http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff&version=$appCont&update=true\""
                 	}else{
 	                	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff"
 				    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff"
