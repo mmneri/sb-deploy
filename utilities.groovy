@@ -113,11 +113,38 @@ public deploy(app, revision) {
     	log ("WAR NAME",  appVersion)
     }
     if(appVersion && appVersion != ""){
-    	cmd "del filename-${revision}"	    
+    	cmd "del filename-${revision}"	
+    	
+    	def out = ""	        
 	    withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-	    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/fff"
-	    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/fff"
-		    cmd "curl --upload-file deploy/$app/$revision/target/$appVersion http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
+	    	cmd "curl -vs http://$USERNAME:$PASSWORD@localhost:8181/manager/text/list > pid"
+            def s = readPropertiesFromFile 'pid'
+            listapps = s.stringPropertyNames().toArray()
+            boolean statut = false
+            def contexte = ""
+            for (i=0; i < listapps.size(); i++) {
+            	echo "ligne $i = "+ listapps[i] + " == "+ s.getProperty(listapps[i])
+            	if(listapps[i] == "OK") {
+            	     statut = true
+            	}
+				if(listapps[i] == "/fff") {
+					def values = s.getProperty(listapps[i])
+					String[] datas = values.split(":")
+					int size = datas.size()
+					contexte = datas[ size-1 ]
+				}            	
+            }
+            
+            if(statut){
+                if(contexte && contexte != null){
+                	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/stop?path=/$contexte"
+			    	cmd "curl http://$USERNAME:$PASSWORD@localhost:8181/manager/text/undeploy?path=/$contexte"
+				    cmd "curl --upload-file deploy/$app/$revision/target/$appVersion http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
+                }else{
+                	cmd "curl --upload-file deploy/$app/$revision/target/$appVersion http://$USERNAME:$PASSWORD@localhost:8181/manager/text/deploy?path=/fff"
+                }
+            }
+	    	
 		}
     }
 }

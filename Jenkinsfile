@@ -21,34 +21,6 @@ stage('Reading Manifest'){
         git 'https://github.com/mmneri/sb-deploy.git'
       	utilities = load 'utilities.groovy' 
       	
-      	def out = ""
-      	withCredentials([usernamePassword(credentialsId: 'deploy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-	    	utilities.cmd "curl -vs http://$USERNAME:$PASSWORD@localhost:8181/manager/text/list > pid"
-            def s = utilities.readPropertiesFromFile 'pid'
-            listapps = s.stringPropertyNames().toArray()
-            boolean statut = false
-            def contexte = ""
-            for (i=0; i < listapps.size(); i++) {
-            	echo "ligne $i = "+ listapps[i] + " == "+ s.getProperty(listapps[i])
-            	if(listapps[i] == "OK") {
-            	     statut = true
-            	}
-				if(listapps[i] == "/fff") {
-					def values = s.getProperty(listapps[i])
-					String[] datas = values.split(":")
-					int size = datas.size()
-					contexte = datas[ size-1 ]
-				}            	
-            }
-            
-            if(statut){
-                echo "contexte = "+ contexte
-            }
-
-	    } 
-      	
-      	utilities.log("OUTPUT", out)
-      	
         step([$class: 'CopyArtifact', filter: 'manifest', projectName: manifestLocation, selector: [$class: 'StatusBuildSelector', stable: false]])
         if (isUnix()) {
 		    move = "mv"
