@@ -43,5 +43,5 @@ stage('Writing Manifest') {
 
 stage('Triggering Release Build') {
     utilities.log "Trigger build", "Triggering a new build"
-    //build job: downstreamJob, propagate: false, wait: false
+    build job: downstreamJob, propagate: false, wait: false
 }
